@@ -107,17 +107,14 @@ public class AbstractSwiftBlobContainer extends AbstractBlobContainer {
     public ImmutableMap<String, BlobMetaData> listBlobsByPrefix(@Nullable String blobNamePrefix) throws IOException {
         ImmutableMap.Builder<String, BlobMetaData> blobsBuilder = ImmutableMap.builder();
 
-        Collection<DirectoryOrObject> files;
-        if (blobNamePrefix != null) {
-            files = blobStore.swift().listDirectory(new Directory(buildKey(blobNamePrefix), '/'));
-        } else {
-            files = blobStore.swift().listDirectory(new Directory(keyPath, '/'));
-        }
+        final Collection<DirectoryOrObject> files = blobStore.swift().listDirectory(new Directory(keyPath, '/'));
         if (files != null && !files.isEmpty()) {
             for (DirectoryOrObject object : files) {
                 if (object.isObject()) {
-                    String name = object.getName().substring(keyPath.length());
-                    blobsBuilder.put(name, new PlainBlobMetaData(name, object.getAsObject().getContentLength()));
+                    final String name = object.getName().substring(keyPath.length());
+                    if (blobNamePrefix == null || name.startsWith(blobNamePrefix)) {
+                        blobsBuilder.put(name, new PlainBlobMetaData(name, object.getAsObject().getContentLength()));
+                    }
                 }
             }
         }

@@ -10,7 +10,7 @@
 
     <groupId>org.wikimedia.elasticsearch.swift</groupId>
     <artifactId>swift-repository-plugin</artifactId>
-    <version>0.7</version>
+    <version>0.7.1</version>
     <packaging>jar</packaging>
     <name>SwiftRepositoryPlugin</name>
     <description>Repository plugin for Elasticsearch backed by Swift</description>
@@ -58,7 +58,7 @@
             <version>2.1.2</version>
             <scope>test</scope>
         </dependency>
-        <!-- Add logging dependencies as optional so they are present during debugging 
+        <!-- Add logging dependencies as optional so they are present during debugging
             but won't try to replace those packaged with Elasticsearch. -->
         <dependency>
             <groupId>log4j</groupId>

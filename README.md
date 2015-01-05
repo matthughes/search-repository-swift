@@ -7,7 +7,7 @@ In order to install the plugin, simply run: `bin/plugin -install org.wikimedia.e
 |-----------------------------|-----------------------|:------------:|
 | 0.4                         | 1.1.0                 | 2014-05-28   |
 | 0.6                         | 1.3.2                 | 2014-08-20   |
-| 0.7                         | 1.4.0                 | 2014-11-07   |
+| 0.7.2                       | 1.4.0                 | 2014-11-07   |
 | 0.8-SNAPSHOT                | master                |              |
 
 Versions 0.4, 0.6 and 0.7 should be used. The in-between releases were

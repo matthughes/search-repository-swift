@@ -36,13 +36,13 @@ public class SwiftService extends AbstractLifecycleComponent<SwiftService> {
      * @param password
      *            The password
      */
-    public synchronized Account swiftBasic(String url, String username, String password) {
+    public synchronized Account swiftBasic(String url, String username, String password, String preferredRegion) {
         if (swiftUser != null) {
             return swiftUser;
         }
 
         try {
-            AccountConfig conf = getStandardConfig(url, username, password, AuthenticationMethod.BASIC);
+            AccountConfig conf = getStandardConfig(url, username, password, AuthenticationMethod.BASIC, preferredRegion);
             swiftUser = new AccountFactory(conf).createAccount();
         } catch (CommandException ce) {
             throw new ElasticsearchIllegalArgumentException("Unable to authenticate to Swift Basic " + url + "/" + username + "/" + password, ce);
@@ -50,13 +50,13 @@ public class SwiftService extends AbstractLifecycleComponent<SwiftService> {
         return swiftUser;
     }
 
-    public synchronized Account swiftKeyStone(String url, String username, String password, String tenantName) {
+    public synchronized Account swiftKeyStone(String url, String username, String password, String tenantName, String preferredRegion) {
         if (swiftUser != null) {
             return swiftUser;
         }
 
         try {
-            AccountConfig conf = getStandardConfig(url, username, password, AuthenticationMethod.KEYSTONE);
+            AccountConfig conf = getStandardConfig(url, username, password, AuthenticationMethod.KEYSTONE, preferredRegion);
             conf.setTenantName(tenantName);
             swiftUser = new AccountFactory(conf).createAccount();
         } catch (CommandException ce) {
@@ -66,13 +66,13 @@ public class SwiftService extends AbstractLifecycleComponent<SwiftService> {
         return swiftUser;
     }
 
-    public synchronized Account swiftTempAuth(String url, String username, String password) {
+    public synchronized Account swiftTempAuth(String url, String username, String password, String preferredRegion) {
         if (swiftUser != null) {
             return swiftUser;
         }
 
         try {
-            AccountConfig conf = getStandardConfig(url, username, password, AuthenticationMethod.TEMPAUTH);
+            AccountConfig conf = getStandardConfig(url, username, password, AuthenticationMethod.TEMPAUTH, preferredRegion);
             swiftUser = new AccountFactory(conf).createAccount();
         } catch (CommandException ce) {
             throw new ElasticsearchIllegalArgumentException("Unable to authenticate to Swift Temp", ce);
@@ -80,7 +80,7 @@ public class SwiftService extends AbstractLifecycleComponent<SwiftService> {
         return swiftUser;
     }
 
-    private AccountConfig getStandardConfig(String url, String username, String password, AuthenticationMethod method) {
+    private AccountConfig getStandardConfig(String url, String username, String password, AuthenticationMethod method, String preferredRegion) {
         AccountConfig conf = new AccountConfig();
         conf.setAuthUrl(url);
         conf.setUsername(username);
@@ -88,6 +88,7 @@ public class SwiftService extends AbstractLifecycleComponent<SwiftService> {
         conf.setAuthenticationMethod(method);
         conf.setAllowContainerCaching(false);
         conf.setAllowCaching(false);
+        conf.setPreferredRegion(preferredRegion);
         return conf;
     }
 

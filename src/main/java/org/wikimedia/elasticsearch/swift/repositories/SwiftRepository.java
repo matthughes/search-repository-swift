@@ -62,7 +62,8 @@ public class SwiftRepository extends BlobStoreRepository {
         String password = repositorySettings.settings().get("swift_password", "");
         String tenantName = repositorySettings.settings().get("swift_tenantname", "");
         String authMethod = repositorySettings.settings().get("swift_authmethod", "");
-        Account account = SwiftAccountFactory.createAccount(swiftService, url, username, password, tenantName, authMethod);
+        String preferredRegion = repositorySettings.settings().get("swift_preferred_region", null);
+        Account account = SwiftAccountFactory.createAccount(swiftService, url, username, password, tenantName, authMethod, preferredRegion);
 
         blobStore = new SwiftBlobStore(settings, account, container);
 

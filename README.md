@@ -26,6 +26,21 @@ buggy and are not recommended.
     }'
 ```
 
+## Create Repository using Keystone
+```
+    $ curl -XPUT 'http://localhost:9200/_snapshot/my_backup' -d '{
+        "type": "swift",
+        "settings": {
+            "swift_url": "http://localhost:5000/v2.0/tokens",
+  	    "swift_authmethod": "KEYSTONE",
+            "swift_container": "my-container",
+            "swift_username": "myuser",
+            "swift_password": "mypass!",
+            "swift_region": "us_eastcoast"
+        }
+    }'
+```
+
 See [Snapshot And Restore](http://www.elasticsearch.org/guide/en/elasticsearch/reference/1.x/modules-snapshots.html) for more information
 
 
@@ -38,6 +53,7 @@ See [Snapshot And Restore](http://www.elasticsearch.org/guide/en/elasticsearch/r
 | swift_password                      | Swift password
 | swift_tenant                        | Swift tenant name, only used with keystone auth
 | swift_username                      | Swift username
+| swift_region                        | Swift preffered region
 | chunk_size                          | Maximum size for individual objects in the snapshot. Defaults to `5gb` as that's the Swift default
 | compress                            | Turns on compression of the snapshot files. Defaults to `false` as it tends to break with Swift
 | max_restore_bytes_per_sec           | Throttles per node restore rate. Defaults to `20mb` per second.

@@ -50,7 +50,7 @@ public class SwiftService extends AbstractLifecycleComponent<SwiftService> {
         return swiftUser;
     }
 
-    public synchronized Account swiftKeyStone(String url, String username, String password, String tenantName) {
+    public synchronized Account swiftKeyStone(String url, String username, String password, String tenantName, String region) {
         if (swiftUser != null) {
             return swiftUser;
         }
@@ -58,6 +58,10 @@ public class SwiftService extends AbstractLifecycleComponent<SwiftService> {
         try {
             AccountConfig conf = getStandardConfig(url, username, password, AuthenticationMethod.KEYSTONE);
             conf.setTenantName(tenantName);
+            //set the preffered region
+            if(!region.isEmpty()){
+                conf.setPreferredRegion( region );
+            }
             swiftUser = new AccountFactory(conf).createAccount();
         } catch (CommandException ce) {
             throw new ElasticsearchIllegalArgumentException(
